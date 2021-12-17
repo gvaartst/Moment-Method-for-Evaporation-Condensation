@@ -20,14 +20,15 @@ if(psi > 0)
 end
 
 pr = 1-psi; %Pressure ratio (pr = pK/pL) for real fluid
+%The follwoing ideal pressure expression replaces pr in the moment equations
 %* pr_id = (pr.^-1 - (1-a)./a .* 2*sqrt(pi./Tr).*S).^-1 *%
-%The ideal pressure expression replaces pr in the moment equations
+
 
 %---Initialize Variables---%
 S0 = zeros(length(psi),1); B0 = S0+1; A0 = S0+1;
 X0 = [S0,B0,A0];
 % The array X holds the column vectors for 
-% [speed ratio, Beta, Alpha] 
+% [Speed ratio, Beta, Alpha] 
 
 %---F,G,H (minus) functions defined by Ytrehus. Y is the speed ratio---%
 F = @(Y) sqrt(pi)*Y.*(-1+erf(Y))+exp(-Y.^2);
