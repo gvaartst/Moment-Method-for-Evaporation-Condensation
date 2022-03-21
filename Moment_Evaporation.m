@@ -15,15 +15,29 @@ function [J,S,Tr,B,Max_Residual] = Moment_Evaporation(psi,a,j)
 %   Maximum absolute value of the residual after solving the system of
 %       equations
 
-if(psi < 0)
+%---Compatibility Check---%
+if(psi >= 0)
+else
     error('Evaporation function called with condensation inputs')
 end
+if(size(psi) == size(a))
+else
+    error('Size of inputs do not match')
+end
+if(size(psi) == size(j))
+else
+    error('Size of inputs do not match')
+end
+[~,ncol] = size(psi);
+if(ncol > 1)
+    error('Inputs must be of dimension nx1')
+end
 
+%---Initialize Variables---%
 pr = 1-psi; %Pressure ratio (pr = pK/pL) for real fluid
 %The following ideal pressure expression replaces pr in the moment equations
 %* pr_id = (pr.^-1 - (1-a)./a .* 2*sqrt(pi./Tr).*S).^-1 *%
 
-%---Initialize Variables---%
 S0 = zeros(length(psi),1); B0 = S0+1; Tr0 = S0+1;
 X0 = [S0,Tr0,B0];
 % The array X holds the column vectors for 
